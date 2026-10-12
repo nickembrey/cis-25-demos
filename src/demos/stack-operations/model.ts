@@ -67,7 +67,8 @@ export function startPop(state: StackState): StackState {
     saved: { id: old.id, value: old.value, next: old.next },
     message: `Saved value ${old.value} and the next address before changing the stack.`,
     activeLine: 'Node* old = top; int value = old->value;',
-    pending: ['delete-old', 'move-top', 'decrement', 'return'],
+    // Same order as IntStack::pop: read next and move top before deleting.
+    pending: ['move-top', 'delete-old', 'decrement', 'return'],
   }
 }
 
@@ -116,7 +117,9 @@ export function advanceAnimation(state: StackState): StackState {
   if (action === 'move-top') {
     return {
       ...state, topId: saved.next,
-      message: saved.next === null ? 'top moved to nullptr.' : 'top moved to the next node.',
+      message: saved.next === null
+        ? 'top moved to old->next, which is nullptr. The old node still exists.'
+        : 'top moved to old->next, the node below. The old node still exists.',
       activeLine: 'top = old->next;', pending,
     }
   }

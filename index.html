@@ -1,0 +1,30 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>CIS 25 Demos</title>
+<style>
+  :root { --bg: #0f172a; --panel: #1e293b; --line: #334155; --fg: #f8fafc; --muted: #94a3b8; --accent: #3b82f6; color-scheme: dark; }
+  * { box-sizing: border-box; }
+  body { margin: 0; background: var(--bg); color: var(--fg); font: 16px/1.5 system-ui, -apple-system, "Segoe UI", sans-serif; }
+  main { max-width: 760px; margin: 0 auto; padding: 48px 16px; }
+  h1 { margin: 0 0 4px; font-size: 1.8rem; letter-spacing: -0.01em; }
+  .sub { color: var(--muted); margin: 0 0 32px; }
+  ul { list-style: none; padding: 0; margin: 0; display: grid; gap: 12px; }
+  a.card { display: block; padding: 16px 20px; background: var(--panel); border: 1px solid var(--line); border-radius: 10px; color: var(--fg); text-decoration: none; }
+  a.card:hover, a.card:focus-visible { border-color: var(--accent); outline: none; }
+  .card strong { display: block; font-size: 1.05rem; }
+  .card span { color: var(--muted); font-size: 0.95rem; }
+</style>
+</head>
+<body>
+<main>
+  <h1>CIS 25 Demos</h1>
+  <p class="sub">Interactive visualizations for CIS 25: Object-Oriented Programming Using C++, Berkeley City College.</p>
+  <ul>
+    <li><a class="card" href="data-structure-sim/"><strong>Data Structure Sim</strong><span>Push and pop on a stack, queues and deques, linked nodes in memory, and a step-through call stack.</span></a></li>
+  </ul>
+</main>
+</body>
+</html>

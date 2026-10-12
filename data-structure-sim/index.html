@@ -1,0 +1,184 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Data Structure Simulation</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="style.css">
+</head>
+
+<body>
+    <div class="app-container">
+        <header>
+            <h1>Data Structure <span class="gradient-text">Sim</span></h1>
+            <nav>
+                <button class="nav-btn active" data-tab="basics">Basics</button>
+                <button class="nav-btn" data-tab="workflow">Task Workflow</button>
+                <button class="nav-btn" data-tab="memory">Memory View</button>
+                <button class="nav-btn" data-tab="recursion">Recursion</button>
+            </nav>
+        </header>
+
+        <main>
+            <!-- PART 1: BASICS -->
+            <section id="basics" class="tab-content active">
+                <div class="sub-nav">
+                    <button class="sub-nav-btn active" data-subtab="stack">Stack</button>
+                    <button class="sub-nav-btn" data-subtab="queue">Queue</button>
+                    <button class="sub-nav-btn" data-subtab="deque">Deque</button>
+                </div>
+
+                <div class="visualization-container">
+                    <div id="basics-visualizer" class="visualizer-area">
+                        <!-- Items will be injected here -->
+                    </div>
+                </div>
+
+                <div class="controls-area">
+                    <div id="stack-controls" class="control-group active">
+                        <input type="text" id="stack-input" placeholder="Value" maxlength="10">
+                        <button class="action-btn push">Push</button>
+                        <button class="action-btn pop">Pop</button>
+                    </div>
+                    <div id="queue-controls" class="control-group">
+                        <input type="text" id="queue-input" placeholder="Value" maxlength="10">
+                        <button class="action-btn enqueue">Enqueue</button>
+                        <button class="action-btn dequeue">Dequeue</button>
+                    </div>
+                    <div id="deque-controls" class="control-group">
+                        <input type="text" id="deque-input" placeholder="Value" maxlength="10">
+                        <button class="action-btn push-front">Push Front</button>
+                        <button class="action-btn push-back">Push Back</button>
+                        <button class="action-btn pop-front">Pop Front</button>
+                        <button class="action-btn pop-back">Pop Back</button>
+                    </div>
+                </div>
+            </section>
+
+            <!-- PART 2: WORKFLOW -->
+            <section id="workflow" class="tab-content">
+                <div class="workflow-layout">
+                    <div class="workflow-column">
+                        <h3>Task Queue (Deque)</h3>
+                        <div id="task-queue-visualizer" class="vertical-container"></div>
+                    </div>
+
+                    <div class="workflow-center">
+                        <div class="active-task-area">
+                            <h3>Active Task</h3>
+                            <div id="active-task-slot" class="slot"></div>
+                        </div>
+                        <div class="workflow-controls">
+                            <div class="input-group">
+                                <input type="text" id="task-input" placeholder="New Task Name">
+                                <button id="create-task-btn" class="action-btn">Create Task</button>
+                            </div>
+                            <button id="start-task-btn" class="action-btn primary">Start Next Task</button>
+                            <button id="complete-task-btn" class="action-btn success">Complete Task</button>
+                            <button id="undo-task-btn" class="action-btn warning">Undo Complete</button>
+                        </div>
+                    </div>
+
+                    <div class="workflow-column">
+                        <h3>Completed (Stack)</h3>
+                        <div id="completed-stack-visualizer" class="vertical-container"></div>
+                    </div>
+                </div>
+            </section>
+
+            <!-- PART 3: MEMORY VIEW -->
+            <section id="memory" class="tab-content">
+                <div class="sub-nav">
+                    <button class="sub-nav-btn active" data-memtab="linkedlist">Linked List</button>
+                    <button class="sub-nav-btn" data-memtab="mem-stack">Stack</button>
+                    <button class="sub-nav-btn" data-memtab="mem-queue">Queue</button>
+                    <button class="sub-nav-btn" data-memtab="mem-deque">Deque</button>
+                </div>
+
+                <div class="memory-layout">
+                    <div class="memory-controls">
+                        <input type="text" id="memory-input" placeholder="Value">
+                        <div id="linkedlist-controls" class="mem-control-group active">
+                            <button class="action-btn" id="mem-ll-init">Init List</button>
+                            <button class="action-btn" id="mem-ll-add-head">Add to Head</button>
+                            <button class="action-btn" id="mem-ll-add-tail">Add to Tail</button>
+                            <button class="action-btn" id="mem-ll-remove-head">Remove Head</button>
+                        </div>
+                        <div id="mem-stack-controls" class="mem-control-group">
+                            <button class="action-btn" id="mem-stack-push">Push</button>
+                            <button class="action-btn" id="mem-stack-pop">Pop</button>
+                        </div>
+                        <div id="mem-queue-controls" class="mem-control-group">
+                            <button class="action-btn" id="mem-queue-enqueue">Enqueue</button>
+                            <button class="action-btn" id="mem-queue-dequeue">Dequeue</button>
+                        </div>
+                        <div id="mem-deque-controls" class="mem-control-group">
+                            <button class="action-btn" id="mem-deque-push-front">Push Front</button>
+                            <button class="action-btn" id="mem-deque-push-back">Push Back</button>
+                            <button class="action-btn" id="mem-deque-pop-front">Pop Front</button>
+                            <button class="action-btn" id="mem-deque-pop-back">Pop Back</button>
+                        </div>
+                    </div>
+
+                    <div class="memory-visualizer-container">
+                        <div class="memory-heap" id="memory-heap">
+                            <!-- Memory blocks go here -->
+                        </div>
+                    </div>
+
+                    <div class="memory-legend">
+                        <div class="legend-item"><span class="dot free"></span> Free Memory</div>
+                        <div class="legend-item"><span class="dot allocated"></span> Allocated</div>
+                        <div class="legend-item"><span class="dot null"></span> NULL</div>
+                    </div>
+                </div>
+            </section>
+
+            <!-- PART 4: RECURSION -->
+            <section id="recursion" class="tab-content">
+                <div class="recursion-layout">
+                    <div class="recursion-controls">
+                        <select id="algo-select">
+                            <option value="factorial">Factorial (n!)</option>
+                            <option value="sumArray">Sum Array</option>
+                            <option value="power">Power (base^exp)</option>
+                        </select>
+                        <div id="algo-inputs">
+                            <input type="number" id="rec-input-1" placeholder="n" value="3" style="width: 60px;">
+                            <input type="number" id="rec-input-2" placeholder="exp" value="3"
+                                style="width: 60px; display:none;">
+                        </div>
+                        <button id="rec-start-btn" class="action-btn primary">Start</button>
+                        <button id="rec-step-btn" class="action-btn" disabled>Step</button>
+                        <button id="rec-reset-btn" class="action-btn warning">Reset</button>
+                    </div>
+
+                    <div class="recursion-workspace">
+                        <div class="code-view">
+                            <h3>Code Trace</h3>
+                            <pre id="code-display">
+// Select an algorithm
+                            </pre>
+                        </div>
+                        <div class="stack-view">
+                            <h3>Call Stack</h3>
+                            <div id="call-stack-container" class="call-stack-container">
+                                <!-- Stack Frames go here -->
+                            </div>
+                        </div>
+                    </div>
+                    <div class="recursion-status" id="recursion-status">
+                        Ready to start...
+                    </div>
+                </div>
+            </section>
+        </main>
+    </div>
+    <script src="script.js"></script>
+</body>
+
+</html>

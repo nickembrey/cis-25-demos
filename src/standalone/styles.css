@@ -1,0 +1,12 @@
+@import "tailwindcss";
+@source "../src/demos/stack-operations";
+@source "../src/demos/call-stack";
+@source "../src/demos/stack-and-heap";
+@source "./";
+
+body {
+  margin: 0;
+  background-color: #1e2a38;
+  color: #e8eef4;
+  font-family: system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+}

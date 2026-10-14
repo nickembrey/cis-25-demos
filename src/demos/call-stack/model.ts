@@ -242,7 +242,8 @@ const factorialSource = [
   '    return n * factorial(n - 1);     // recursive case',
   '}', '',
   'int main() {',
-  '    std::cout << "3! = " << factorial(3) << \'\\n\';',
+  '    int result = factorial(3);',
+  '    std::cout << "3! = " << result << \'\\n\';',
   '    return 0;',
   '}',
 ]
@@ -251,54 +252,55 @@ const factorialSteps: CallStep[] = [
   step(10, [frame('fact-main', 'main', 'operating system')], 'main starts, so its frame is pushed.'),
   step(11, [
     frame('fact-3', 'factorial', 'main, line 11', [variable('n', '3', 'parameter')]),
-    frame('fact-main', 'main', 'operating system'),
-  ], 'The output line calls factorial(3). This frame has its own n, set to 3.'),
+    frame('fact-main', 'main', 'operating system', [variable('result', '?')]),
+  ], 'main calls factorial(3). This frame has its own n, set to 3.'),
   step(4, [
     frame('fact-3', 'factorial', 'main, line 11', [variable('n', '3', 'parameter')], 'needs 3 * factorial(2)'),
-    frame('fact-main', 'main', 'operating system'),
+    frame('fact-main', 'main', 'operating system', [variable('result', '?')]),
   ], 'The base case is false for n = 3. This frame must wait for factorial(2).'),
   step(7, [
     frame('fact-2', 'factorial', 'factorial, line 7', [variable('n', '2', 'parameter')], 'needs 2 * factorial(1)'),
     frame('fact-3', 'factorial', 'main, line 11', [variable('n', '3', 'parameter')], 'needs 3 * factorial(2)'),
-    frame('fact-main', 'main', 'operating system'),
+    frame('fact-main', 'main', 'operating system', [variable('result', '?')]),
   ], 'factorial(2) is pushed with its own n. It must wait for factorial(1).'),
   step(7, [
     frame('fact-1', 'factorial', 'factorial, line 7', [variable('n', '1', 'parameter')], 'needs 1 * factorial(0)'),
     frame('fact-2', 'factorial', 'factorial, line 7', [variable('n', '2', 'parameter')], 'needs 2 * factorial(1)'),
     frame('fact-3', 'factorial', 'main, line 11', [variable('n', '3', 'parameter')], 'needs 3 * factorial(2)'),
-    frame('fact-main', 'main', 'operating system'),
+    frame('fact-main', 'main', 'operating system', [variable('result', '?')]),
   ], 'factorial(1) is pushed with its own n. It must wait for factorial(0).'),
   step(7, [
     frame('fact-0', 'factorial', 'factorial, line 7', [variable('n', '0', 'parameter')]),
     frame('fact-1', 'factorial', 'factorial, line 7', [variable('n', '1', 'parameter')], 'needs 1 * factorial(0)'),
     frame('fact-2', 'factorial', 'factorial, line 7', [variable('n', '2', 'parameter')], 'needs 2 * factorial(1)'),
     frame('fact-3', 'factorial', 'main, line 11', [variable('n', '3', 'parameter')], 'needs 3 * factorial(2)'),
-    frame('fact-main', 'main', 'operating system'),
+    frame('fact-main', 'main', 'operating system', [variable('result', '?')]),
   ], 'This is the deepest point. Each factorial frame has its own n.'),
   step(5, [
     frame('fact-0', 'factorial', 'factorial, line 7', [variable('n', '0', 'parameter')], 'returns 1 (base case)'),
     frame('fact-1', 'factorial', 'factorial, line 7', [variable('n', '1', 'parameter')], 'needs 1 * factorial(0)'),
     frame('fact-2', 'factorial', 'factorial, line 7', [variable('n', '2', 'parameter')], 'needs 2 * factorial(1)'),
     frame('fact-3', 'factorial', 'main, line 11', [variable('n', '3', 'parameter')], 'needs 3 * factorial(2)'),
-    frame('fact-main', 'main', 'operating system'),
+    frame('fact-main', 'main', 'operating system', [variable('result', '?')]),
   ], 'For n = 0, the base case is true, so this frame returns 1.'),
   step(7, [
     frame('fact-1', 'factorial', 'factorial, line 7', [variable('n', '1', 'parameter')], 'returns 1 * 1 = 1'),
     frame('fact-2', 'factorial', 'factorial, line 7', [variable('n', '2', 'parameter')], 'needs 2 * factorial(1)'),
     frame('fact-3', 'factorial', 'main, line 11', [variable('n', '3', 'parameter')], 'needs 3 * factorial(2)'),
-    frame('fact-main', 'main', 'operating system'),
+    frame('fact-main', 'main', 'operating system', [variable('result', '?')]),
   ], 'The n = 0 frame pops. The n = 1 frame finishes its multiplication.'),
   step(7, [
     frame('fact-2', 'factorial', 'factorial, line 7', [variable('n', '2', 'parameter')], 'returns 2 * 1 = 2'),
     frame('fact-3', 'factorial', 'main, line 11', [variable('n', '3', 'parameter')], 'needs 3 * factorial(2)'),
-    frame('fact-main', 'main', 'operating system'),
+    frame('fact-main', 'main', 'operating system', [variable('result', '?')]),
   ], 'The n = 1 frame pops. The n = 2 frame finishes its multiplication.'),
   step(7, [
     frame('fact-3', 'factorial', 'main, line 11', [variable('n', '3', 'parameter')], 'returns 3 * 2 = 6'),
-    frame('fact-main', 'main', 'operating system'),
+    frame('fact-main', 'main', 'operating system', [variable('result', '?')]),
   ], 'The n = 2 frame pops. The n = 3 frame finishes its multiplication.'),
-  step(11, [frame('fact-main', 'main', 'operating system')], 'factorial(3) returns 6, and only then does the line print.', ['3! = 6']),
-  step(13, [], 'main returns, leaving the call stack empty.', ['3! = 6']),
+  step(11, [frame('fact-main', 'main', 'operating system', [variable('result', '6')])], 'The n = 3 frame pops, and the returned value lands in result.'),
+  step(12, [frame('fact-main', 'main', 'operating system', [variable('result', '6')])], 'main prints the result.', ['3! = 6']),
+  step(14, [], 'main returns, leaving the call stack empty.', ['3! = 6']),
 ]
 
 const printBackwardSource = [

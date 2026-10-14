@@ -58,6 +58,9 @@ describe('call stack programs', () => {
     const factorial = callPrograms.find((program) => program.id === 'factorial')
     expect(factorial).toBeDefined()
     expect(factorial?.steps.at(-1)?.console).toEqual(['3! = 6'])
+    for (const current of factorial?.steps ?? []) {
+      if (current.frames.some((frame) => frame.functionName === 'factorial')) expect(current.console).toEqual([])
+    }
     expect(Math.max(...(factorial?.steps.map((current) => current.frames.length) ?? []))).toBe(5)
     const returnedValues = factorial?.steps
       .map((current) => current.frames[0]?.note)
@@ -86,7 +89,7 @@ describe('call stack programs', () => {
     for (const line of ['if (n < 0) {', 'countdown(n - 1);']) {
       expect(countdown?.source.some((sourceLine) => sourceLine.includes(line))).toBe(true)
     }
-    for (const line of ['if (n == 0) {', 'return n * factorial(n - 1);']) {
+    for (const line of ['if (n == 0) {', 'return n * factorial(n - 1);', 'int result = factorial(3);']) {
       expect(factorial?.source.some((sourceLine) => sourceLine.includes(line))).toBe(true)
     }
     for (const line of ['void printBackward(const Node* head) {', 'printBackward(head->next);', 'head = new Node{5, head};']) {

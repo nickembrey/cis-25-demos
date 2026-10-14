@@ -73,6 +73,16 @@ describe('call stack programs', () => {
     const printBackward = callPrograms.find((program) => program.id === 'printBackward')
     expect(printBackward).toBeDefined()
     expect(printBackward?.steps.at(-1)?.console).toEqual(['2 9 5 '])
+    const printSteps = printBackward?.steps ?? []
+    for (const current of printSteps) {
+      const onStack = current.frames.filter((frame) => frame.functionName === 'printBackward')
+      if (onStack.some((frame) => frame.variables.some((variable) => variable.value === '→ nullptr'))) expect(current.console).toEqual([])
+    }
+    const framesWhenFirstPrinted = (output: string) =>
+      printSteps.find((current) => current.console.join('') === output)?.frames.filter((frame) => frame.functionName === 'printBackward').length
+    expect(framesWhenFirstPrinted('2 ')).toBe(3)
+    expect(framesWhenFirstPrinted('2 9 ')).toBe(2)
+    expect(framesWhenFirstPrinted('2 9 5 ')).toBe(1)
     const maxFrames = Math.max(...(printBackward?.steps.map((current) => current.frames.length) ?? []))
     expect(maxFrames).toBe(5)
     const deepest = printBackward?.steps.find((current) => current.frames.length === maxFrames)

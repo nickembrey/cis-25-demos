@@ -60,6 +60,7 @@ export default function CallStackDemo() {
                   ))}
                 </dl>
                 <p className="mt-2 text-xs text-slate-400">returns to: {frame.returnsTo}</p>
+                {frame.note ? <p className="mt-2 text-xs text-slate-400">{frame.note}</p> : null}
               </article>
             ))}
           </div>
